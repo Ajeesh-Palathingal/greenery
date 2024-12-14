@@ -36,8 +36,8 @@ class ProfileScreen extends StatelessWidget {
                         left: MediaQuery.of(context).size.width / 2 - 50,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: NetworkImage(
-                              'https://storage.googleapis.com/a1aa/image/tKsx6upfwtyOaKRjoGPepR7JirevLMVbOka4vMLCJvfUIarPB.jpg'),
+                          backgroundImage: AssetImage('assets/image.png'),
+                          backgroundColor: Colors.white,
                         ),
                       ),
                     ],

@@ -50,6 +50,8 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/authentication/signup/
+    - assets/authentication/login/
     - assets/svg/bottom_navbar/
     - assets/svg/home/
   # An image asset can refer to one or more resolution-specific "variants", see

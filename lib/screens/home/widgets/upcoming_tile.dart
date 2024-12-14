@@ -31,7 +31,7 @@ class UpcomingTile extends StatelessWidget {
         child: GestureDetector(
           onTap: () {},
           child: Container(
-            height: 242.w,
+            height: 244.w,
             width: 168.w,
             child: Column(
               children: [

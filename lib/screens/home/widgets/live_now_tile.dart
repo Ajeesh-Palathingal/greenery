@@ -14,7 +14,7 @@ class LiveNowTile extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailsScreen()),
       child: Container(
-        height: 277.w,
+        height: 278.w,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.r),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:greenery/screens/widgets/custom_elevated_button.dart';
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 import '../widgets/custom_appbar_widget.dart';
@@ -81,18 +82,7 @@ class MakeABidScreen extends StatelessWidget {
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.green[800],
-                  backgroundColor: Colors.green[200],
-                  minimumSize: Size(double.infinity, 48),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text('Make a bid'),
-              ),
+              child: CustomElevatedButton(onPressed: (){}, label: "Make a bid")
             ),
           ),
         ],

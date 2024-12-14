@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greenery/screens/authentication/signup/sign_up.dart';
 import 'package:greenery/screens/home/home_screen.dart';
 import 'package:greenery/screens/make_a_bid/make_a_bid.dart';
+import 'package:greenery/screens/new_auction/new_auction.dart';
 
 import 'screens/navbar_controll/navbar_controll_screen.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: MakeABidScreen(),
+            home: NewAuctionScreen(),
           );
         });
   }

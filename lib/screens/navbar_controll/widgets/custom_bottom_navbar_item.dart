@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:greenery/controllers/app_controller.dart';
 import 'package:greenery/core/constants/colors.dart';
+import 'package:greenery/screens/home/home_screen.dart';
 
 import 'package:greenery/screens/widgets/custom_text.dart';
 
@@ -32,16 +33,16 @@ class CustomBottomNavbarItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                iconPath,
-              ),
+              Image(image: AssetImage(iconPath)),
               CustomText(
                 text: label,
                 fontSize: 12.sp,
                 fontColor: appController.bottomNavbarIndex.value == index
                     ? primaryColor
                     : Colors.black,
-              ),
+              ),  // Image.asset(
+              //   iconPath,
+              // ),
             ],
           ),
         ));

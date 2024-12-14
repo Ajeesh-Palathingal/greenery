@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:greenery/core/constants/colors.dart';
-
 import '../widgets/custom_elevated_button.dart';
 
 void main() {
@@ -48,7 +46,7 @@ class NewAuctionScreen extends StatelessWidget {
                         fillColor: Colors.green[100],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
@@ -61,7 +59,7 @@ class NewAuctionScreen extends StatelessWidget {
                         fillColor: Colors.green[100],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
@@ -73,7 +71,7 @@ class NewAuctionScreen extends StatelessWidget {
                         fillColor: Colors.green[100],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
@@ -85,7 +83,7 @@ class NewAuctionScreen extends StatelessWidget {
                         fillColor: Colors.green[100],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
@@ -95,7 +93,7 @@ class NewAuctionScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.green[100],
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey[300]!),
+                        border: Border.all(color: Colors.grey),
                       ),
                       child: Center(
                         child: Column(

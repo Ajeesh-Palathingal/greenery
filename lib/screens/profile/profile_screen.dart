@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greenery/screens/widgets/custom_appbar_widget.dart';
+import 'package:greenery/screens/widgets/custom_elevated_button.dart';
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 class ProfileScreen extends StatelessWidget {

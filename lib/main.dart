@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:greenery/screens/splash/splash_screen.dart';
 
+
 void main() {
   runApp(const MyApp());
 }

@@ -18,7 +18,7 @@ class CustomAppBarWidget extends StatelessWidget
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
         child: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);

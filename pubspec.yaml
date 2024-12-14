@@ -29,25 +29,24 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.8
+  dio: ^5.4.3+1
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.16
   get: ^4.6.6
-  socket_io_client: ^3.0.0-beta.2
-  shared_preferences: ^2.2.3
   json_annotation: ^4.9.0
   json_serializable: ^6.7.1
-  dio: ^5.4.3+1
   razorpay_flutter: ^1.3.7
+  shared_preferences: ^2.3.3
+  socket_io_client: ^3.0.0-beta.2
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
   build_runner: ^2.4.9
-  intl: ^0.19.0
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
-
+  intl: ^0.19.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,7 +64,6 @@ flutter:
     - assets/svg/home/
     - assets/auction/
     - assets/products/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see

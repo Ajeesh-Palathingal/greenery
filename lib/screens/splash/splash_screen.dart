@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:greenery/core/constants/constants.dart';
 import 'package:greenery/screens/auction/auction_screen.dart';
 import 'package:greenery/screens/authentication/login.dart';
 import 'package:greenery/screens/navbar_controll/navbar_controll_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -24,11 +28,16 @@ class SplashScreen extends StatelessWidget {
   }
 
   enterApp(BuildContext context) async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    final String? _token = await sharedPref.getString(TOKEN);
     Future.delayed(
-      const Duration(seconds: 6),
+      const Duration(seconds: 3),
       () {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginPage()));
+        if (_token == null) {
+          Get.to(() => LoginPage());
+        } else {
+          Get.to(() => NavbarControlScreen());
+        }
       },
     );
   }

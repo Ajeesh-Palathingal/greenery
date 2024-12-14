@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:greenery/api/data/Url.dart';
+import 'package:greenery/api/data/end_points.dart';
 import 'package:greenery/models/chat_model/chat_model.dart';
 import 'package:greenery/models/chat_model/message.dart';
 import 'package:greenery/models/messaged_profiles/messaged_profiles.dart';
@@ -14,7 +14,6 @@ abstract class MessageApiCalls {
 
 class MessageDB extends MessageApiCalls {
   final Dio dio = Dio();
-  final Url url = Url();
   late SharedPreferences _sharedPref;
   late String _token;
   bool _initialized = false;
@@ -27,7 +26,7 @@ class MessageDB extends MessageApiCalls {
     _sharedPref = await SharedPreferences.getInstance();
     _token = _sharedPref.getString('TOKEN') ?? '';
     dio.options = BaseOptions(
-      baseUrl: url.baseUrl,
+      baseUrl: baseUrl,
       responseType: ResponseType.plain,
       validateStatus: (status) => status! < 500,
       headers: {
@@ -43,8 +42,8 @@ class MessageDB extends MessageApiCalls {
       await _initialize();
     }
     try {
-      print(url.messagedProfiles);
-      final result = await dio.get(url.messagedProfiles);
+      print(EndPoints.sendOTP);
+      final result = await dio.get(EndPoints.messagedProfiles);
       if (result.data != null && result.statusCode == 200) {
         final resultAsJson = jsonDecode(result.data);
         final profiles = MessagedProfiles.fromJson(resultAsJson);
@@ -64,8 +63,8 @@ class MessageDB extends MessageApiCalls {
       await _initialize();
     }
     try {
-      print(url.conversation);
-      final result = await dio.get('${url.conversation}/$profileId');
+      print(EndPoints.conversation);
+      final result = await dio.get('${EndPoints.conversation}/$profileId');
       if (result.data != null && result.statusCode == 200) {
         final resultAsJson = jsonDecode(result.data);
         final profiles = ChatModel.fromJson(resultAsJson);
@@ -85,9 +84,9 @@ class MessageDB extends MessageApiCalls {
       await _initialize();
     }
     try {
-      print(url.sendMessage);
+      print(EndPoints.sendMessage);
       final result = await dio.post(
-        url.sendMessage,
+        EndPoints.sendMessage,
         data: {'profileId': profileId, 'message': message},
       );
       if (result.data != null && result.statusCode == 201) {

@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     auctionController.getLiveAuctions();
-    // auctionController.getUpcomingAuctions();
+    auctionController.getUpcomingAuctions();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 290.w,
                 child: Obx(() {
-                  return auctionController.isLoading.value
+                  return auctionController.isLoadingLive.value
                       ? Center(child: CircularProgressIndicator())
                       : ListView.builder(
                           shrinkWrap: true,
@@ -156,17 +156,28 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(
                 height: 255.w,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => Padding(
-                    padding: index == 0
-                        ? EdgeInsets.only(left: 20.w, right: 5.w)
-                        : EdgeInsets.only(right: 5.w),
-                    child: Center(child: UpcomingTile()),
-                  ),
-                  itemCount: 4,
-                ),
+                child: Obx(() {
+                  return auctionController.isLoadingUpcoming.value
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Padding(
+                            padding: index == 0
+                                ? EdgeInsets.only(left: 20.w, right: 5.w)
+                                : EdgeInsets.only(right: 5.w),
+                            child: Center(
+                                child: UpcomingTile(
+                              auctionItem:
+                                  auctionController.upcomingAuctionsList[index],
+                            )),
+                          ),
+                          itemCount:
+                              auctionController.upcomingAuctionsList.length,
+                        );
+                }),
               ),
             ],
           ),

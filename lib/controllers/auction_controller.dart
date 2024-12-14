@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuctionController extends GetxController {
   final dio = Dio();
-  RxBool isLoading = false.obs;
+  RxBool isLoadingLive = false.obs;
+  RxBool isLoadingUpcoming = false.obs;
 
   RxList<AuctionModel> liveAuctionsList = <AuctionModel>[].obs;
   RxList<AuctionModel> upcomingAuctionsList = <AuctionModel>[].obs;
@@ -17,7 +18,7 @@ class AuctionController extends GetxController {
   Future getLiveAuctions() async {
     final SharedPreferences sharedPref = await SharedPreferences.getInstance();
     try {
-      isLoading.value = true;
+      isLoadingLive.value = true;
       final result = await dio.get(
         "$baseUrl${EndPoints.liveAuction}",
       );
@@ -29,17 +30,17 @@ class AuctionController extends GetxController {
                 AuctionModel.fromJson(auction as Map<String, dynamic>))
             .toList();
         log("Live auctions: ${liveAuctionsList[0].productName}");
-        isLoading.value = false;
+        isLoadingLive.value = false;
 
         return true;
       } else {
         // Handle unexpected status codes or null response
-        isLoading.value = false;
+        isLoadingLive.value = false;
         throw Exception(
             'Failed to get live auctions: ${result.statusCode}, Message: ${result.statusMessage}');
       }
     } catch (e) {
-      isLoading.value = false;
+      isLoadingLive.value = false;
       log('Error occurred during live auctions: $e');
     }
   }
@@ -47,7 +48,7 @@ class AuctionController extends GetxController {
   Future getUpcomingAuctions() async {
     final SharedPreferences sharedPref = await SharedPreferences.getInstance();
     try {
-      isLoading.value = true;
+      isLoadingUpcoming.value = true;
       final result = await dio.get(
         "$baseUrl${EndPoints.upcomingAuction}",
       );
@@ -59,16 +60,16 @@ class AuctionController extends GetxController {
                 AuctionModel.fromJson(auction as Map<String, dynamic>))
             .toList();
         log("Upcoming auctions: ${upcomingAuctionsList[0].productName}");
-
+        isLoadingUpcoming.value = false;
         return true;
       } else {
         // Handle unexpected status codes or null response
-        isLoading.value = false;
+        isLoadingUpcoming.value = false;
         throw Exception(
             'Failed to get Upcoming auctions: ${result.statusCode}, Message: ${result.statusMessage}');
       }
     } catch (e) {
-      isLoading.value = false;
+      isLoadingUpcoming.value = false;
       log('Error occurred during upcoming auctions: $e');
     }
   }

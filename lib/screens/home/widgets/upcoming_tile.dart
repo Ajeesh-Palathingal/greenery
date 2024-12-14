@@ -3,14 +3,19 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:greenery/api/data/end_points.dart';
 import 'package:greenery/core/constants/colors.dart';
+import 'package:greenery/models/auction_model/auction_model.dart';
 import 'package:greenery/screens/widgets/custom_elevated_button.dart';
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 class UpcomingTile extends StatelessWidget {
   const UpcomingTile({
     super.key,
+    required this.auctionItem,
   });
+
+  final AuctionModel auctionItem;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +44,7 @@ class UpcomingTile extends StatelessWidget {
                   height: 102.w,
                   width: 168.w,
                   child: Image(
-                    image: NetworkImage(
-                        "https://s3-alpha-sig.figma.com/img/f869/f610/0123aa9089a83e3b494ffb29656db470?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aKxT2eE9f7SsQN~DWsRW7cy-4u1PqjZ2nRL~PqhThSbqeHv5SJ0xjEgXinggazEhJLFeaf1vRyPQiPWINvD1bLOEmNb3~Y4MKFvEtE0a57MYmloMio0O1lKnpP1l7Qy5JxJOzD8Q771ESbsisi6TIs-~tNkf-ELSl6imwjMgLJPqxNLJcLmi7Y8BikGHkWwGoebiS13OJQz-HzcN1iMXuzS8fVnsBSFiqaOJaTPaNKgQgOShvOy5E1Got5~mMhDLjjbHf0JioWq8aPDxY7w6xKsE8xPP4HS~eMbdQXVQHnEHbsGvm9ktQsyrw3lBGVANbYncpR8spmoi3Np5nytUsw__"),
+                    image: NetworkImage("$baseUrl${auctionItem.images[0]}"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -52,13 +56,12 @@ class UpcomingTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: "Product Name",
+                        text: auctionItem.productName,
                         fontSize: 14.sp,
                         fontweight: FontWeight.w500,
                       ),
                       CustomText(
-                        text:
-                            "Lorem ipsum dolor sit amet consectetur. Placerat morbi in eu pharetra......",
+                        text: auctionItem.description,
                         fontSize: 12.sp,
                         maxLines: 2,
                         textOverflow: TextOverflow.ellipsis,

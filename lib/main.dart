@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:greenery/screens/authentication/sign_up.dart';
 import 'package:greenery/screens/splash/splash_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +20,8 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, _) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
+
+          return GetMaterialApp(
             title: 'Flutter Demo',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

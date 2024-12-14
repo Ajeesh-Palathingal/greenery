@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:greenery/controllers/app_controller.dart';
 import 'package:greenery/screens/widgets/custom_elevated_button.dart';
+
+import '../widgets/custom_appbar_widget.dart';
 
 class AuctionScreen extends StatelessWidget {
   const AuctionScreen({super.key});
@@ -13,8 +14,8 @@ class AuctionScreen extends StatelessWidget {
     AppController appController = Get.put(AppController());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Auction"),
+      appBar: CustomAppBarWidget(
+        title: "Auction",
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:greenery/controllers/app_controller.dart';
 import 'package:greenery/core/constants/colors.dart';
+import 'package:greenery/screens/home/widgets/upcoming_tile.dart';
 import 'package:greenery/screens/product_description/widgets/small_image_tile.dart';
+import 'package:greenery/screens/widgets/custom_appbar_widget.dart';
 import 'package:greenery/screens/widgets/custom_elevated_button.dart';
 import 'package:greenery/screens/widgets/custom_text.dart';
 
@@ -22,144 +24,234 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Stack(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              child: Column(
                 children: [
-                  SizedBox(
-                    height: 333.w,
-                    width: double.infinity,
-                    child: Obx(() {
-                      return Image(
-                        image: NetworkImage(imagesList[
-                            appController.selectedProductImageIndex.value]),
-                        fit: BoxFit.cover,
-                      );
-                    }),
-                  ),
-                  Positioned(
-                    bottom: 18.h,
-                    left: 31.w,
-                    right: 31.w,
-                    child: Container(
-                      height: 66.w,
-                      width: 328.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
+                  Stack(
+                    children: [
+                      SizedBox(
+                        height: 333.w,
+                        width: double.infinity,
+                        child: Obx(() {
+                          return Image(
+                            image: NetworkImage(imagesList[
+                                appController.selectedProductImageIndex.value]),
+                            fit: BoxFit.cover,
+                          );
+                        }),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (int i = 0; i < imagesList.length; i++)
-                              GestureDetector(
-                                onTap: () {
-                                  appController
-                                      .selectedProductImageIndex.value = i;
-                                  print(appController
-                                      .selectedProductImageIndex.value);
-                                },
-                                child: Obx(() {
-                                  return SmallImageTile(
-                                    imageUrl: imagesList[i],
-                                    isSelected: appController
-                                            .selectedProductImageIndex.value ==
-                                        i,
-                                  );
-                                }),
-                              ),
-                          ],
+                      Positioned(
+                        bottom: 18.h,
+                        left: 31.w,
+                        right: 31.w,
+                        child: Container(
+                          height: 66.w,
+                          width: 328.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(5.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                for (int i = 0; i < imagesList.length; i++)
+                                  GestureDetector(
+                                    onTap: () {
+                                      appController
+                                          .selectedProductImageIndex.value = i;
+                                      print(appController
+                                          .selectedProductImageIndex.value);
+                                    },
+                                    child: Obx(() {
+                                      return SmallImageTile(
+                                        imageUrl: imagesList[i],
+                                        isSelected: appController
+                                                .selectedProductImageIndex
+                                                .value ==
+                                            i,
+                                      );
+                                    }),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+
+                  // product details
+
+                  Padding(
+                    padding: EdgeInsets.all(15.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            CustomText(
+                              text: "Product name",
+                              fontSize: 20.sp,
+                            ),
+                            Spacer(),
+                            Icon(Icons.star_rate_rounded),
+                            CustomText(
+                              text: "3.9",
+                              fontSize: 20.sp,
+                            ),
+                          ],
+                        ),
+                        CustomText(
+                          text:
+                              "Lorem ipsum dolor sit amet consectetur. Adipiscing quis quisque condimentum tempor nullam sociis. Enim velit nulla nulla rhoncus dis aliquet enim. Habitant posuere molestie lectus accumsan sit sapien amet vitae leo. Habitant diam massa duis amet.",
+                          fontSize: 14.sp,
+                          fontColor: Colors.black.withOpacity(0.6),
+                        ),
+                        SizedBox(height: 10.h),
+                        Row(
+                          children: [
+                            CustomText(
+                                text: "Starting bid : ", fontSize: 14.sp),
+                            CustomText(
+                              text: "₹200",
+                              fontSize: 18.sp,
+                              fontweight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            CustomText(
+                              text: "Starting bid : ",
+                              fontSize: 14.sp,
+                            ),
+                            CustomText(
+                              text: "₹200",
+                              fontSize: 18.sp,
+                              fontweight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                        Divider(),
+                        CustomText(
+                          text: "Sell details",
+                          fontSize: 18.sp,
+                          fontweight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 22.r,
+                            ),
+                            SizedBox(width: 5.w),
+                            CustomText(
+                              text: "Samalex",
+                              fontSize: 16.sp,
+                            ),
+                            Spacer(),
+                            CustomElevatedButton(
+                              height: 30.w,
+                              width: 100.w,
+                              onPressed: () {},
+                              backgroundColor: primaryColor,
+                              label: "Locate",
+                              labelColor: Colors.black,
+                              labelSize: 14.sp,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        CustomText(
+                          text: "Seller’s deals",
+                          fontSize: 18.sp,
+                          fontweight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          height: 255.w,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => Padding(
+                              padding: index == 0
+                                  ? EdgeInsets.only(left: 20.w, right: 5.w)
+                                  : EdgeInsets.only(right: 5.w),
+                              child: Center(child: UpcomingTile()),
+                            ),
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: 10,
+                            ),
+                            itemCount: 4,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                        )
+                      ],
                     ),
                   ),
                 ],
               ),
-
-              // product details
-
-              Padding(
-                padding: EdgeInsets.all(15.w),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        CustomText(
-                          text: "Product name",
-                          fontSize: 20.sp,
-                        ),
-                        Spacer(),
-                        Icon(Icons.star_rate_rounded),
-                        CustomText(
-                          text: "3.9",
-                          fontSize: 20.sp,
-                        ),
-                      ],
-                    ),
-                    CustomText(
-                      text:
-                          "Lorem ipsum dolor sit amet consectetur. Adipiscing quis quisque condimentum tempor nullam sociis. Enim velit nulla nulla rhoncus dis aliquet enim. Habitant posuere molestie lectus accumsan sit sapien amet vitae leo. Habitant diam massa duis amet.",
-                      fontSize: 14.sp,
-                      fontColor: Colors.black.withOpacity(0.6),
-                    ),
-                    SizedBox(height: 10.h),
-                    Row(
-                      children: [
-                        CustomText(text: "Starting bid : ", fontSize: 14.sp),
-                        CustomText(
-                          text: "₹200",
-                          fontSize: 18.sp,
-                          fontweight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        CustomText(text: "Starting bid : ", fontSize: 14.sp),
-                        CustomText(
-                          text: "₹200",
-                          fontSize: 18.sp,
-                          fontweight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    CustomText(
-                      text: "Sell details",
-                      fontSize: 18.sp,
-                      fontweight: FontWeight.w600,
-                    ),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20.r,
-                        ),
-                        SizedBox(width: 5.w),
-                        CustomText(
-                          text: "Samalex",
-                          fontSize: 14.sp,
-                        ),
-                        Spacer(),
-                        CustomElevatedButton(
-                            height: 30.w,
-                            width: 100.w,
-                            onPressed: () {},
-                            backgroundColor: primaryColor,
-                            label: "Locate",
-                            labelColor: Colors.black,
-                            labelSize: 12.sp),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            left: 15,
+            top: 40,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: EdgeInsets.zero,
+                backgroundColor: Colors.white70,
+                elevation: 0,
+              ),
+              child: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.black,
+                size: 22,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 15,
+            right: 15,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomElevatedButton(
+                  height: 50.w,
+                  width: 175.w,
+                  onPressed: () {},
+                  backgroundColor: primaryColor,
+                  label: "Message",
+                  labelColor: Colors.black,
+                  labelSize: 14.sp,
+                ),
+                CustomElevatedButton(
+                  height: 50.w,
+                  width: 175.w,
+                  onPressed: () {},
+                  backgroundColor: primaryColor,
+                  label: "Make a bid",
+                  labelColor: Colors.black,
+                  labelSize: 14.sp,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

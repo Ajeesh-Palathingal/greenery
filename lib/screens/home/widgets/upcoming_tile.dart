@@ -32,12 +32,12 @@ class UpcomingTile extends StatelessWidget {
           onTap: () {},
           child: Container(
             height: 244.w,
-            width: 168.w,
+            width: 170.w,
             child: Column(
               children: [
                 SizedBox(
                   height: 102.w,
-                  width: 168.w,
+                  width: 170.w,
                   child: Image(
                     image: NetworkImage(
                         "https://s3-alpha-sig.figma.com/img/f869/f610/0123aa9089a83e3b494ffb29656db470?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=aKxT2eE9f7SsQN~DWsRW7cy-4u1PqjZ2nRL~PqhThSbqeHv5SJ0xjEgXinggazEhJLFeaf1vRyPQiPWINvD1bLOEmNb3~Y4MKFvEtE0a57MYmloMio0O1lKnpP1l7Qy5JxJOzD8Q771ESbsisi6TIs-~tNkf-ELSl6imwjMgLJPqxNLJcLmi7Y8BikGHkWwGoebiS13OJQz-HzcN1iMXuzS8fVnsBSFiqaOJaTPaNKgQgOShvOy5E1Got5~mMhDLjjbHf0JioWq8aPDxY7w6xKsE8xPP4HS~eMbdQXVQHnEHbsGvm9ktQsyrw3lBGVANbYncpR8spmoi3Np5nytUsw__"),

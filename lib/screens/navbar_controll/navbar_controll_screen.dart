@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:greenery/controllers/app_controller.dart';
 import 'package:greenery/screens/auction/auction_screen.dart';
 import 'package:greenery/screens/home/home_screen.dart';
-import 'package:greenery/screens/message/message_screen.dart';
+import 'package:greenery/screens/message_screen/MessageScreen.dart';
 import 'package:greenery/screens/navbar_controll/widgets/custom_bottom_navbar.dart';
 import 'package:greenery/screens/profile/profile_screen.dart';
 
@@ -15,6 +15,7 @@ class NavbarControlScreen extends StatelessWidget {
     HomeScreen(),
     AuctionScreen(),
     MessageScreen(),
+    
     ProfileScreen(),
   ];
 

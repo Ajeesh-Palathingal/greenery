@@ -10,7 +10,7 @@ class LiveNowTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 277.w,
+      height: 278.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.r),

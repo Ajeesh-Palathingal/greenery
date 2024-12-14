@@ -204,11 +204,23 @@ class ProductListingWidget extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const Text(
-                        ". Live",
-                        style: TextStyle(
-                          color: Colors.green,
-                        ),
+                      const Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 3,
+                            backgroundColor: Colors.green,
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            "Live",
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),

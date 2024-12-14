@@ -87,99 +87,104 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () => _fetchMessagedProfiles(),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Message"),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => _fetchMessagedProfiles(),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
               ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Messages',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Messages',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: messagedProfilesNotifier,
-              builder: (context, value, child) {
-                if (value.messagedProfiles != null &&
-                    value.messagedProfiles!.isNotEmpty) {
-                  return ListView.separated(
-                    itemCount: value.messagedProfiles!.length,
-                    itemBuilder: (context, index) {
-                      final messagedProfile = value.messagedProfiles![index];
-                      final time =
-                          timeAgo(messagedProfile.latestMessageSendAt!);
-                      return _buildMessageTile(
-                        messagedProfile.profile!.username ?? 'username',
-                        messagedProfile.profile!.profilePic ?? '',
-                        messagedProfile.latestMessage ?? 'message',
-                        messagedProfile.messageStatus ?? '',
-                        time,
-                        messagedProfile.unreadCount ?? 0,
-                        () async {
-                          await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (ctx) => ChatScreen(
-                                socket: socket,
-                                profileId: messagedProfile.profile!.id ?? '',
-                                profilePic:
-                                    messagedProfile.profile!.profilePic ?? '',
-                                username: messagedProfile.profile!.username ??
-                                    'Username',
+            Expanded(
+              child: ValueListenableBuilder(
+                valueListenable: messagedProfilesNotifier,
+                builder: (context, value, child) {
+                  if (value.messagedProfiles != null &&
+                      value.messagedProfiles!.isNotEmpty) {
+                    return ListView.separated(
+                      itemCount: value.messagedProfiles!.length,
+                      itemBuilder: (context, index) {
+                        final messagedProfile = value.messagedProfiles![index];
+                        final time =
+                            timeAgo(messagedProfile.latestMessageSendAt!);
+                        return _buildMessageTile(
+                          messagedProfile.profile!.username ?? 'username',
+                          messagedProfile.profile!.profilePic ?? '',
+                          messagedProfile.latestMessage ?? 'message',
+                          messagedProfile.messageStatus ?? '',
+                          time,
+                          messagedProfile.unreadCount ?? 0,
+                          () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => ChatScreen(
+                                  socket: socket,
+                                  profileId: messagedProfile.profile!.id ?? '',
+                                  profilePic:
+                                      messagedProfile.profile!.profilePic ?? '',
+                                  username: messagedProfile.profile!.username ??
+                                      'Username',
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(left: 26, right: 26),
-                        child: Divider(),
-                      );
-                    },
-                  );
-                } else if (isLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.green,
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text(
-                      'Start a new chat...',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                            );
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Padding(
+                          padding: EdgeInsets.only(left: 26, right: 26),
+                          child: Divider(),
+                        );
+                      },
+                    );
+                  } else if (isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.green,
                       ),
-                    ),
-                  );
-                }
-              },
+                    );
+                  } else {
+                    return const Center(
+                      child: Text(
+                        'Start a new chat...',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

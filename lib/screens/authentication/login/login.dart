@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
                 child: Center(
                   child: Image.asset(
-                    'assets/authentication/signup/Rectangle708.png', // Replace with your image path
+                    'assets/authentication/login/login.png', // Replace with your image path
                     height: 229,
                     width: 370,
                     fit: BoxFit.cover,
@@ -32,11 +32,14 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Text(
-                "Welcome Back!",
+              CustomText(
+                text: "Welcome Back!",
+                fontSize: 20,
+                fontweight: FontWeight.bold,
               ),
-              Text(
-                "Let's login for explore bidding products",
+              CustomText(
+                text: "Let's login for explore bidding products",
+                fontSize: 13,
               ),
               const SizedBox(height: 16.0),
               // Login Form
@@ -48,7 +51,6 @@ class LoginPage extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Username',
                         border: const OutlineInputBorder(),
-                        prefixIcon: const Icon(Icons.person),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -63,8 +65,7 @@ class LoginPage extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: const OutlineInputBorder(),
-                        prefixIcon: const Icon(Icons.lock),
-                        suffixIcon: const Icon(Icons.visibility_off),
+                        suffixIcon: const Icon(Icons.visibility_outlined),
                       ),
                       obscureText: true,
                       validator: (value) {
@@ -86,7 +87,7 @@ class LoginPage extends StatelessWidget {
                         },
                         child: CustomText(
                           text: 'Forgot password?',
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                       ),
                     ),
@@ -113,7 +114,7 @@ class LoginPage extends StatelessWidget {
                     Center(
                       child: CustomText(
                         text: "You can connect with",
-                        fontSize: 14,
+                        fontSize: 13,
                       ),
                     ),
                     const SizedBox(height: 16.0),
@@ -139,9 +140,17 @@ class LoginPage extends StatelessWidget {
                           // Navigate to Signup Page
                           Navigator.pushNamed(context, '/signup');
                         },
-                        child: CustomText(
-                          text: "Don't have an account? Sign Up",
-                          fontSize: 14,
+                        child: Row(
+                          children: [
+                            CustomText(
+                              text: "Don't have an account?",
+                              fontSize: 14,
+                            ),
+                            CustomText(
+                              text: "Sign Up",
+                              fontSize: 14,
+                            )
+                          ],
                         ),
                       ),
                     )

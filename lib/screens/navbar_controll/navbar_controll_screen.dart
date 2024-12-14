@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:greenery/screens/widgets/custom_text.dart';
+import 'package:get/get.dart';
+import 'package:greenery/controllers/app_controller.dart';
+import 'package:greenery/screens/auction/auction_screen.dart';
+import 'package:greenery/screens/home/home_screen.dart';
+import 'package:greenery/screens/message/message_screen.dart';
+import 'package:greenery/screens/navbar_controll/widgets/custom_bottom_navbar.dart';
+import 'package:greenery/screens/profile/profile_screen.dart';
 
-class NavbarControllScreen extends StatelessWidget {
-  const NavbarControllScreen({super.key});
+class NavbarControlScreen extends StatelessWidget {
+  NavbarControlScreen({super.key});
+
+  AppController appController = Get.put(AppController());
+  final pages = [
+    HomeScreen(),
+    AuctionScreen(),
+    MessageScreen(),
+    ProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: CustomText(
-        text: "Navbar screen",
-        fontSize: 14.sp,
-      )),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Obx(() {
+          return pages[appController.bottomNavbarIndex.value];
+        }),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

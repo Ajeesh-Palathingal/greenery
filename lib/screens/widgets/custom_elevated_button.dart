@@ -14,8 +14,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.labelColor = Colors.black,
     this.labelSize = 18,
     this.borderRadius = 10,
-    this.childWidget,
-    this.labelFont,
+    this.childWidget, this.border,
   });
 
   final double? height;
@@ -29,7 +28,8 @@ class CustomElevatedButton extends StatelessWidget {
   final double borderRadius;
   final Widget? childWidget;
   final FontWeight? labelFont;
-
+  final Border? border;
+  
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,8 +39,8 @@ class CustomElevatedButton extends StatelessWidget {
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(
-            color: backgroundColor ??
-                primaryColor, // Assign primaryColor if backgroundColor is null
+            border: border,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(borderRadius),
           ),
           child: Row(

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:greenery/api/data/end_points.dart';
 import 'package:greenery/core/constants/colors.dart';
+import 'package:greenery/models/auction_model/auction_model.dart';
 import 'package:greenery/screens/product_description/product_details_screen.dart';
 import 'package:greenery/screens/widgets/custom_elevated_button.dart';
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 class LiveNowTile extends StatelessWidget {
-  const LiveNowTile({super.key});
-
+  const LiveNowTile({super.key, required this.auctionItem});
+  final AuctionModel auctionItem;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailsScreen()),
       child: Container(
-        height: 277.w,
+        height: 278.w,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.r),
@@ -35,8 +37,7 @@ class LiveNowTile extends StatelessWidget {
                 height: 117.w,
                 width: 275.w,
                 child: Image(
-                  image: NetworkImage(
-                      "https://s3-alpha-sig.figma.com/img/6bd1/2ddc/36ceab8b257480d16d86c02302224180?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DpdGR1K2fSugraZvmkr1hrnwv1kB4LsOTCWdQw9-WPOpoqSOfLeP7hEf6Kp6qJ1RgE2W2Bh5FjeFYaKfMa~GolpOdNyYPzt-1xThL9F8hU6sRP5saFygMdq~129iEzWtIR8VL8mWADeCOkS934Zl4ZbeaPYOvYFz5sLXZzRGUX4O2CbpYywc5byYVzPkoiuBb1EKhhbaDF~xY3phSJGU2jmA4N6cXds-Bcsq83V20KFwfG~QNrKiwFufk9M2Ii63hzGQB0ONlDtrkx2XMJVc8d4tubM56bL~wgi6wU1B-DqqZXDehaPSX62H2WHLuK-DrQyPdaqMRk2RxUxKtHhTBw__"),
+                  image: NetworkImage("$baseUrl${auctionItem.images[0]}"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -46,11 +47,12 @@ class LiveNowTile extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           CustomText(
-                            text: "Product Name",
+                            text: auctionItem.productName,
                             fontSize: 16.sp,
                             fontweight: FontWeight.w500,
                           ),
@@ -63,8 +65,7 @@ class LiveNowTile extends StatelessWidget {
                         ],
                       ),
                       CustomText(
-                        text:
-                            "Lorem ipsum dolor sit amet consectetur. Placerat morbi in eu pharetra erat facilisi dui pellentesque elit..........",
+                        text: auctionItem.description,
                         fontSize: 12.sp,
                         fontColor: Colors.black.withOpacity(0.6),
                       ),
@@ -76,7 +77,7 @@ class LiveNowTile extends StatelessWidget {
                             fontweight: FontWeight.w700,
                           ),
                           CustomText(
-                            text: "₹480",
+                            text: "₹${auctionItem.highestBid}",
                             fontSize: 15.sp,
                             fontweight: FontWeight.w700,
                           ),
@@ -87,21 +88,23 @@ class LiveNowTile extends StatelessWidget {
                             fontweight: FontWeight.w700,
                           ),
                           CustomText(
-                            text: "₹480",
+                            text: "₹${auctionItem.startingBid}",
                             fontSize: 15.sp,
                             fontweight: FontWeight.w700,
                           ),
                         ],
                       ),
                       SizedBox(height: 13.h),
-                      CustomElevatedButton(
-                        height: 31.w,
-                        width: 229.w,
-                        onPressed: () {},
-                        backgroundColor: primaryColor,
-                        label: "bid",
-                        labelColor: Colors.black,
-                        labelSize: 15.sp,
+                      Center(
+                        child: CustomElevatedButton(
+                          height: 31.w,
+                          width: 229.w,
+                          onPressed: () {},
+                          backgroundColor: primaryColor,
+                          label: "bid",
+                          labelColor: Colors.black,
+                          labelSize: 15.sp,
+                        ),
                       ),
                       SizedBox(height: 10.h),
                     ],

@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:greenery/controllers/auction_controller.dart';
+import 'package:greenery/screens/auction/auction_screen.dart';
 import 'package:greenery/screens/home/widgets/categories_tile.dart';
 import 'package:greenery/screens/home/widgets/live_now_tile.dart';
 import 'package:greenery/screens/home/widgets/upcoming_tile.dart';
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  AuctionController auctionController = Get.put(AuctionController());
 
   @override
   Widget build(BuildContext context) {
+    auctionController.getLiveAuctions();
+    // auctionController.getUpcomingAuctions();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -107,17 +115,25 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(
                 height: 290.w,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 4,
-                  itemBuilder: (context, index) => Padding(
-                    padding: index == 0
-                        ? EdgeInsets.symmetric(horizontal: 15.w)
-                        : EdgeInsets.only(right: 15.w),
-                    child: Center(child: LiveNowTile()),
-                  ),
-                ),
+                child: Obx(() {
+                  return auctionController.isLoading.value
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: auctionController.liveAuctionsList.length,
+                          itemBuilder: (context, index) => Padding(
+                            padding: index == 0
+                                ? EdgeInsets.symmetric(horizontal: 15.w)
+                                : EdgeInsets.only(right: 15.w),
+                            child: Center(
+                                child: LiveNowTile(
+                              auctionItem:
+                                  auctionController.liveAuctionsList[index],
+                            )),
+                          ),
+                        );
+                }),
               ),
               SizedBox(height: 10.h),
               Padding(

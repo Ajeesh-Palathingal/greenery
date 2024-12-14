@@ -133,7 +133,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         final time =
                             timeAgo(messagedProfile.latestMessageSendAt!);
                         return _buildMessageTile(
-                          messagedProfile.profile!.username ?? 'username',
+                          messagedProfile.profile!.firstName ?? 'firstName',
                           messagedProfile.profile!.profilePic ?? '',
                           messagedProfile.latestMessage ?? 'message',
                           messagedProfile.messageStatus ?? '',
@@ -147,8 +147,9 @@ class _MessageScreenState extends State<MessageScreen> {
                                   profileId: messagedProfile.profile!.id ?? '',
                                   profilePic:
                                       messagedProfile.profile!.profilePic ?? '',
-                                  username: messagedProfile.profile!.username ??
-                                      'Username',
+                                  firstName:
+                                      messagedProfile.profile!.firstName ??
+                                          'firstName',
                                 ),
                               ),
                             );

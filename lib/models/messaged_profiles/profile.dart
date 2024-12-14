@@ -6,10 +6,10 @@ part 'profile.g.dart';
 class Profile {
   @JsonKey(name: '_id')
   String? id;
-  String? username;
+  String? firstName;
   String? profilePic;
 
-  Profile({this.id, this.username, this.profilePic});
+  Profile({this.id, this.firstName, this.profilePic});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return _$ProfileFromJson(json);

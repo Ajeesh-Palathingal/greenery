@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Icon(Icons.add),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(

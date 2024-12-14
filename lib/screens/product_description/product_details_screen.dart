@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:greenery/controllers/app_controller.dart';
 import 'package:greenery/core/constants/colors.dart';
 import 'package:greenery/screens/home/widgets/upcoming_tile.dart';
+import 'package:greenery/screens/make_a_bid/make_a_bid.dart';
+import 'package:greenery/screens/message_screen/ChatScreen.dart';
 import 'package:greenery/screens/product_description/widgets/small_image_tile.dart';
 import 'package:greenery/screens/widgets/custom_appbar_widget.dart';
 import 'package:greenery/screens/widgets/custom_elevated_button.dart';
@@ -160,7 +164,9 @@ class ProductDetailsScreen extends StatelessWidget {
                             CustomElevatedButton(
                               height: 30.w,
                               width: 100.w,
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(());
+                              },
                               backgroundColor: primaryColor,
                               label: "Locate",
                               labelColor: Colors.black,
@@ -233,7 +239,13 @@ class ProductDetailsScreen extends StatelessWidget {
                 CustomElevatedButton(
                   height: 50.w,
                   width: 175.w,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(ChatScreen(
+                      firstName: "username",
+                      profilePic: "profilePic",
+                      profileId: "",
+                    ));
+                  },
                   backgroundColor: primaryColor,
                   label: "Message",
                   labelColor: Colors.black,
@@ -242,7 +254,9 @@ class ProductDetailsScreen extends StatelessWidget {
                 CustomElevatedButton(
                   height: 50.w,
                   width: 175.w,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(MakeABidScreen());
+                  },
                   backgroundColor: primaryColor,
                   label: "Make a bid",
                   labelColor: Colors.black,

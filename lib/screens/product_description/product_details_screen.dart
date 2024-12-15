@@ -191,7 +191,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               padding: index == 0
                                   ? EdgeInsets.only(left: 20.w, right: 5.w)
                                   : EdgeInsets.only(right: 5.w),
-                              child: Center(child: UpcomingTile()),
+                              // child: Center(child: UpcomingTile()),
                             ),
                             separatorBuilder: (context, index) => SizedBox(
                               width: 10,

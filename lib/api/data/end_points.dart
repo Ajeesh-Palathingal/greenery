@@ -8,6 +8,7 @@ abstract class EndPoints {
   static String loginUser = "api/v1/auth/login";
   static String liveAuction = "api/v1/auction/live";
   static String upcomingAuction = "api/v1/auction/upcoming";
+  static String getOrderId = "api/v1/payment/create";
 
 // Messages
   static String sendMessage = "api/v1/chat/send";

@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
     auctionController.getLiveAuctions();
     auctionController.getUpcomingAuctions();
     return Scaffold(
+      floatingActionButton: Icon(Icons.add),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(

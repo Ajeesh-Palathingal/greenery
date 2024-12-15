@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:greenery/api/data/end_points.dart';
 import 'package:greenery/api/data/message.dart';
@@ -11,14 +10,14 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:intl/intl.dart';
 
 class ChatScreen extends StatelessWidget {
-  final String username;
+  final String firstName;
   final String profilePic;
   final String profileId;
   final IO.Socket? socket;
 
   const ChatScreen({
     super.key,
-    required this.username,
+    required this.firstName,
     required this.profilePic,
     required this.profileId,
     this.socket,
@@ -65,7 +64,7 @@ class ChatScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  username,
+                  firstName,
                   style: const TextStyle(
                     color: Colors.black,
                   ),

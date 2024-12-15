@@ -37,12 +37,12 @@ class UpcomingTile extends StatelessWidget {
           onTap: () {},
           child: Container(
             height: 244.w,
-            width: 168.w,
+            width: 170.w,
             child: Column(
               children: [
                 SizedBox(
                   height: 102.w,
-                  width: 168.w,
+                  width: 170.w,
                   child: Image(
                     image: NetworkImage("$baseUrl${auctionItem.images[0]}"),
                     fit: BoxFit.cover,

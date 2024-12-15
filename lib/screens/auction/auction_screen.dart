@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:greenery/controllers/app_controller.dart';
+import 'package:greenery/controllers/auction_controller.dart';
+// import 'package:greenery/controllers/payment_controller.dart';
+import 'package:greenery/screens/payment/payment_screen.dart';
 import 'package:greenery/screens/widgets/custom_elevated_button.dart';
 
 import '../widgets/custom_appbar_widget.dart';
@@ -12,6 +15,7 @@ class AuctionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppController appController = Get.put(AppController());
+    AuctionController auctionController = Get.put(AuctionController());
 
     return Scaffold(
       appBar: CustomAppBarWidget(
@@ -105,25 +109,43 @@ class AuctionScreen extends StatelessWidget {
               height: 20.h,
             ),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return const ProductListingWidget(
-                    productName: "Product Name",
-                    description:
-                        "Lorem ipsum dolor sit amet consectetur. Adipiscing quis quisque condimentum........",
-                    currentHighestBid: 400,
-                    winningBidAmount: 300,
-                    hoursRemaining: 12,
-                    minutesRemaining: 12,
-                    secondsRemaining: 23,
-                    isLive: false,
-                  );
-                },
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 20,
-                ),
-                itemCount: 30,
-              ),
+              child: Obx(() {
+                return auctionController.isLoading.value
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.separated(
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () => Get.to(() => PaymentScreen(
+                                  amount: auctionController
+                                      .liveAuctionsList[index].highestBid,
+                                )),
+                            child: ProductListingWidget(
+                              productName: "Product Name",
+                              description:
+                                  "Lorem ipsum dolor sit amet consectetur. Adipiscing quis quisque condimentum........",
+                              currentHighestBid: auctionController
+                                          .liveAuctionsList[index].highestBid ==
+                                      0
+                                  ? 100.0
+                                  : auctionController
+                                      .liveAuctionsList[index].highestBid
+                                      .toDouble(),
+                              winningBidAmount: 300,
+                              hoursRemaining: 12,
+                              minutesRemaining: 12,
+                              secondsRemaining: 23,
+                              isLive: false,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 20,
+                        ),
+                        itemCount: auctionController.liveAuctionsList.length,
+                      );
+              }),
             ),
           ],
         ),

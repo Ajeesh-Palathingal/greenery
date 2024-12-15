@@ -63,6 +63,7 @@ class _MakeABidState extends State<MakeABid> {
     final newBid = BidModel.fromJson(bidData);
     _bidders.add(newBid);
     _bidders.sort((a, b) => b.amount.compareTo(a.amount));
+    auctionController.getBids(widget.auctionId);
   }
 
   void _placeBid(double bidAmount) {
@@ -107,6 +108,9 @@ class _MakeABidState extends State<MakeABid> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 100),
+        () => auctionController.getBids(widget.auctionId));
+
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: "Make a bid",
@@ -129,29 +133,28 @@ class _MakeABidState extends State<MakeABid> {
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Builder(
-                      builder: (context) {
-                        return Column(
-                          children: auctionController.bids
-                              .map((bidder) => Column(
-                                    children: [
-                                      _buildBidItem(
-                                          bidder.bidderName,
-                                          bidder.bidderEmail ?? "",
-                                          '\$${bidder.amount.toStringAsFixed(2)}'),
-                                      if (bidder != _bidders.last)
-                                        const Divider(
-                                          color: Colors.grey,
-                                          thickness: 1,
-                                          indent: 18,
-                                          endIndent: 18,
-                                        ),
-                                    ],
-                                  ))
-                              .toList(),
-                        );
-                      }
-                    ),
+                    child: Obx(() {
+                      print(auctionController.bids);
+                      return auctionController.isLoading.value
+                          ? Center(child: CircularProgressIndicator())
+                          : SizedBox(
+                              height: 300,
+                              child: ListView.builder(
+                                  itemCount: auctionController.bids.length,
+                                  itemBuilder: (context, index) {
+                                    return Row(
+                                      children: [
+                                        Text(auctionController
+                                            .bids[index].bidderName),
+                                        Spacer(),
+                                        Text(auctionController
+                                            .bids[index].amount
+                                            .toString()),
+                                      ],
+                                    );
+                                  }),
+                            );
+                    }),
                   ),
                   const SizedBox(height: 16),
                   SingleChildScrollView(

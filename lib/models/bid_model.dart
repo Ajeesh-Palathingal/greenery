@@ -1,28 +1,34 @@
 class BidModel {
-  final String id;
   final String auctionId;
-  final String bidderName;
-  final String? bidderEmail;
-  final double amount;
-  final DateTime timestamp;
+  final double bidAmount;
+  final String fullName;
+  final String userId;
 
+  // Constructor
   BidModel({
-    required this.id,
     required this.auctionId,
-    required this.bidderName,
-     this.bidderEmail,
-    required this.amount,
-    required this.timestamp,
+    required this.bidAmount,
+    required this.fullName,
+    required this.userId,
   });
 
+  // Factory method to create a BidModel from JSON
   factory BidModel.fromJson(Map<String, dynamic> json) {
     return BidModel(
-      id: json['_id'],
-      auctionId: json['auction'],
-      bidderName: json['bidder']['fullName'],
-      bidderEmail: json['bidder']['email']??'',
-      amount: json['amount'].toDouble(),
-      timestamp: DateTime.parse(json['timestamp']),
+      auctionId: json['auctionId'] as String,
+      bidAmount: (json['bidAmount'] as num).toDouble(),
+      fullName: json['fullName'] as String,
+      userId: json['userId'] as String,
     );
+  }
+
+  // Method to convert BidModel to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'auctionId': auctionId,
+      'bidAmount': bidAmount,
+      'fullName': fullName,
+      'userId': userId,
+    };
   }
 }

@@ -246,6 +246,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   height: 50.w,
                   width: 175.w,
                   onPressed: () {
+                    AuctionController auctionController = Get.put(AuctionController());
+                    log(auctionController.bidsList.toString());
                     Get.to(ChatScreen(
                       firstName: auction.createdBy.fullName,
                       profilePic: auction.images[0],

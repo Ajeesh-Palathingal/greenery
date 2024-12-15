@@ -29,6 +29,7 @@ class AuthController extends GetxController {
         final data = result.data;
         log("Login successful: ${data.toString()}");
         isLoading.value = false;
+        log(data["token"].toString());
         sharedPref.setString(TOKEN, data["token"]);
         sharedPref.setString(NAME, data["user"]["fullName"]);
         sharedPref.setString(PROFILEPIC, data["user"]["profilePic"]);

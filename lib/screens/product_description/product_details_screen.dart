@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:greenery/api/data/end_points.dart';
 import 'package:greenery/controllers/app_controller.dart';
 import 'package:greenery/controllers/auction_controller.dart';
+import 'package:greenery/controllers/payment_controller.dart';
 import 'package:greenery/core/constants/api_endpoints.dart';
 import 'package:greenery/core/constants/colors.dart';
 import 'package:greenery/models/auction_model/auction_model.dart';
@@ -23,6 +24,7 @@ class ProductDetailsScreen extends StatelessWidget {
   ProductDetailsScreen({super.key, required this.auction});
 
   final AuctionModel auction;
+  PaymentController paymentController = Get.put(PaymentController());
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +196,6 @@ class ProductDetailsScreen extends StatelessWidget {
                               padding: index == 0
                                   ? EdgeInsets.only(left: 20.w, right: 5.w)
                                   : EdgeInsets.only(right: 5.w),
-
                               child: Center(
                                   child: UpcomingTile(
                                 auctionItem: auction,
@@ -262,9 +263,10 @@ class ProductDetailsScreen extends StatelessWidget {
                   height: 50.w,
                   width: 175.w,
                   onPressed: () {
-                    Get.to(MakeABid(
-                      auctionId: auction.id,
-                    ));
+                    // Get.to(MakeABid(
+                    //   auctionId: auction.id,
+                    // ));
+                    paymentController.getOrderId(auction.id);
                   },
                   backgroundColor: primaryColor,
                   label: "Make a bid",

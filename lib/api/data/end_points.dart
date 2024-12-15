@@ -9,7 +9,7 @@ abstract class EndPoints {
   static String liveAuction = "api/v1/auction/live";
   static String upcomingAuction = "api/v1/auction/upcoming";
   static String getOrderId = "api/v1/payment/create";
-
+   static String verify = "api/v1/payment/verify";
 
 
 // Messages

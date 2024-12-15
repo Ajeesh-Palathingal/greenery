@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:greenery/controllers/auction_controller.dart';
+import 'package:greenery/controllers/payment_controller.dart';
+import 'package:greenery/screens/auction/auction_screen.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -8,6 +13,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   late Razorpay _razorpay;
+
+  PaymentController paymentController = Get.put(PaymentController());
 
   @override
   void initState() {
@@ -26,6 +33,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Payment Success: ${response.paymentId}');
+
+    String _signature = response.data!['razorpay_signature'];
+    String _orderId = response.data!['razorpay_order_id'];
+    String _paymentId = response.data!['razorpay_payment_id'];
+
+    paymentController.verifyPayment(_orderId, _signature, _paymentId);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Payment Successful!')),
     );

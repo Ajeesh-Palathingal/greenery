@@ -37,6 +37,8 @@ class MessageDB extends MessageApiCalls {
     _initialized = true;
   }
 
+  
+
   @override
   Future<MessagedProfiles> getMessagedProfiles() async {
     if (!_initialized) {

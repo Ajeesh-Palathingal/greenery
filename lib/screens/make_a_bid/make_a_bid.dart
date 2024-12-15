@@ -10,9 +10,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../widgets/custom_appbar_widget.dart';
 
 class MakeABid extends StatefulWidget {
-  const MakeABid({super.key, required this.auctionId});
+   MakeABid({super.key, required this.auctionId});
   final String auctionId;
-
+AuctionController auctionController = Get.put(AuctionController());
   @override
   _MakeABidState createState() => _MakeABidState();
 }
@@ -20,11 +20,13 @@ class MakeABid extends StatefulWidget {
 class _MakeABidState extends State<MakeABid> {
   late IO.Socket _socket;
   final TextEditingController _bidController = TextEditingController();
+  
   List<BidModel> _bidders = [];
-  AuctionController auctionController = Get.put(AuctionController());
 
   @override
   void initState() {
+    AuctionController auctionController = AuctionController();
+    auctionController.getBids(widget.auctionId);
     super.initState();
     _initializeSocket();
   }
@@ -61,8 +63,11 @@ class _MakeABidState extends State<MakeABid> {
 
   void _handleNewBid(dynamic bidData) {
     final newBid = BidModel.fromJson(bidData);
+    log("new ${newBid}");
     _bidders.add(newBid);
-    _bidders.sort((a, b) => b.amount.compareTo(a.amount));
+    _bidders.sort((a, b) => b.bidAmount!.compareTo(a.bidAmount ?? 0));
+
+    log(_bidders.toString());
   }
 
   void _placeBid(double bidAmount) {
@@ -74,8 +79,8 @@ class _MakeABidState extends State<MakeABid> {
 
   void _quickBid(double increment) {
     if (_bidders.isNotEmpty) {
-      final currentBid = _bidders.first.amount;
-      final newBidAmount = currentBid + increment;
+      final currentBid = _bidders.first.bidAmount;
+      final newBidAmount = currentBid;
       _bidController.text = newBidAmount.toStringAsFixed(2);
     } else {
       _bidController.text = increment.toString();
@@ -129,29 +134,23 @@ class _MakeABidState extends State<MakeABid> {
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Builder(
-                      builder: (context) {
-                        return Column(
-                          children: auctionController.bids
-                              .map((bidder) => Column(
-                                    children: [
-                                      _buildBidItem(
-                                          bidder.bidderName,
-                                          bidder.bidderEmail ?? "",
-                                          '\$${bidder.amount.toStringAsFixed(2)}'),
-                                      if (bidder != _bidders.last)
-                                        const Divider(
-                                          color: Colors.grey,
-                                          thickness: 1,
-                                          indent: 18,
-                                          endIndent: 18,
-                                        ),
-                                    ],
-                                  ))
-                              .toList(),
-                        );
-                      }
-                    ),
+                    child: Obx(() {
+                      print(widget.auctionController.bidsList);
+                      return widget.auctionController.isLoading.value
+                          ? Center(child: CircularProgressIndicator())
+                          : SizedBox(
+                            height: 300,
+                            child: ListView.builder(
+                              itemCount: widget.auctionController.bidsList.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Text(widget.auctionController.bidsList[index].fullName)
+                                  ],
+                                );
+                              }),
+                          );
+                    }),
                   ),
                   const SizedBox(height: 16),
                   SingleChildScrollView(

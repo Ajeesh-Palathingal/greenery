@@ -14,7 +14,9 @@ class LiveNowTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetailsScreen()),
+      onTap: () => Get.to(() => ProductDetailsScreen(
+        auction: auctionItem,
+      )),
       child: Container(
         height: 278.w,
         decoration: BoxDecoration(

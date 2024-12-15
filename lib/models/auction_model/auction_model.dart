@@ -19,6 +19,8 @@ class AuctionModel {
   @JsonKey(name: '__v')
   final int version;
 
+  final CreatedBy createdBy;
+
   AuctionModel({
     required this.id,
     required this.productName,
@@ -30,6 +32,7 @@ class AuctionModel {
     required this.images,
     required this.payment,
     required this.version,
+    required this.createdBy,
   });
 
   factory AuctionModel.fromJson(Map<String, dynamic> json) =>
@@ -48,6 +51,7 @@ class AuctionModel {
     List<String>? images,
     PaymentStatus? payment,
     int? version,
+    CreatedBy? createdBy,
   }) {
     return AuctionModel(
       id: id ?? this.id,
@@ -60,6 +64,7 @@ class AuctionModel {
       images: images ?? this.images,
       payment: payment ?? this.payment,
       version: version ?? this.version,
+      createdBy: createdBy ?? this.createdBy,
     );
   }
 }
@@ -80,6 +85,37 @@ class PaymentStatus {
   }) {
     return PaymentStatus(
       status: status ?? this.status,
+    );
+  }
+}
+
+@JsonSerializable()
+class CreatedBy {
+  @JsonKey(name: '_id')
+  final String id;
+  final String fullName;
+  final String email;
+
+  CreatedBy({
+    required this.id,
+    required this.fullName,
+    required this.email,
+  });
+
+  factory CreatedBy.fromJson(Map<String, dynamic> json) =>
+      _$CreatedByFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CreatedByToJson(this);
+
+  CreatedBy copyWith({
+    String? id,
+    String? fullName,
+    String? email,
+  }) {
+    return CreatedBy(
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
     );
   }
 }

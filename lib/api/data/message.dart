@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:greenery/api/data/end_points.dart';
+import 'package:greenery/core/constants/constants.dart';
 import 'package:greenery/models/chat_model/chat_model.dart';
 import 'package:greenery/models/chat_model/message.dart';
 import 'package:greenery/models/messaged_profiles/messaged_profiles.dart';
@@ -24,7 +25,7 @@ class MessageDB extends MessageApiCalls {
 
   Future<void> _initialize() async {
     _sharedPref = await SharedPreferences.getInstance();
-    _token = _sharedPref.getString('TOKEN') ?? '';
+    _token = _sharedPref.getString(TOKEN) ?? '';
     dio.options = BaseOptions(
       baseUrl: baseUrl,
       responseType: ResponseType.plain,
@@ -86,7 +87,7 @@ class MessageDB extends MessageApiCalls {
     try {
       print(EndPoints.sendMessage);
       final result = await dio.post(
-        EndPoints.sendMessage,
+        baseUrl + EndPoints.sendMessage,
         data: {'profileId': profileId, 'message': message},
       );
       if (result.data != null && result.statusCode == 201) {

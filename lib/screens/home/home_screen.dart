@@ -158,13 +158,15 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 255.w,
                 child: Obx(() {
+
                   return auctionController.isLoadingUpcoming.value
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
+                      ? Center(child: CircularProgressIndicator())
                       : ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
+                          itemCount:
+                              auctionController.upcomingAuctionsList.length,
+
                           itemBuilder: (context, index) => Padding(
                             padding: index == 0
                                 ? EdgeInsets.only(left: 20.w, right: 5.w)
@@ -175,8 +177,8 @@ class HomeScreen extends StatelessWidget {
                                   auctionController.upcomingAuctionsList[index],
                             )),
                           ),
-                          itemCount:
-                              auctionController.upcomingAuctionsList.length,
+
+
                         );
                 }),
               ),

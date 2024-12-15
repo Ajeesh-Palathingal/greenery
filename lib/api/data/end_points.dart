@@ -10,8 +10,15 @@ abstract class EndPoints {
   static String upcomingAuction = "api/v1/auction/upcoming";
   static String getOrderId = "api/v1/payment/create";
 
+
+
 // Messages
   static String sendMessage = "api/v1/chat/send";
   static String messagedProfiles = "api/v1/chat/profiles";
   static String conversation = "api/v1/chat/conversation";
+
+  static String bid = "api/v1/bids";
+
+
+
 }

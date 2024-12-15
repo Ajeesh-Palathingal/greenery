@@ -18,6 +18,7 @@ AuctionModel _$AuctionModelFromJson(Map<String, dynamic> json) => AuctionModel(
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
       payment: PaymentStatus.fromJson(json['payment'] as Map<String, dynamic>),
       version: (json['__v'] as num).toInt(),
+      createdBy: CreatedBy.fromJson(json['createdBy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AuctionModelToJson(AuctionModel instance) =>
@@ -32,6 +33,7 @@ Map<String, dynamic> _$AuctionModelToJson(AuctionModel instance) =>
       'images': instance.images,
       'payment': instance.payment,
       '__v': instance.version,
+      'createdBy': instance.createdBy,
     };
 
 PaymentStatus _$PaymentStatusFromJson(Map<String, dynamic> json) =>
@@ -42,4 +44,16 @@ PaymentStatus _$PaymentStatusFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PaymentStatusToJson(PaymentStatus instance) =>
     <String, dynamic>{
       'status': instance.status,
+    };
+
+CreatedBy _$CreatedByFromJson(Map<String, dynamic> json) => CreatedBy(
+      id: json['_id'] as String,
+      fullName: json['fullName'] as String,
+      email: json['email'] as String,
+    );
+
+Map<String, dynamic> _$CreatedByToJson(CreatedBy instance) => <String, dynamic>{
+      '_id': instance.id,
+      'fullName': instance.fullName,
+      'email': instance.email,
     };

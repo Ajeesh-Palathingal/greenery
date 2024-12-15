@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:greenery/api/data/end_points.dart';
+import 'package:greenery/api/data/Url.dart';
 import 'package:greenery/api/data/message.dart';
+import 'package:greenery/core/constants/constants.dart';
 import 'package:greenery/models/chat_model/message.dart';
 import 'package:greenery/models/messaged_profiles/messaged_profile.dart';
 import 'package:greenery/models/messaged_profiles/messaged_profiles.dart';
@@ -44,10 +45,10 @@ class _MessageScreenState extends State<MessageScreen> {
       isLoading = false;
     });
     final sharedPref = await SharedPreferences.getInstance();
-    final authorization = sharedPref.getString('TOKEN');
+    final authorization = sharedPref.getString(TOKEN);
     print(authorization);
     socket = IO.io(
-      "${baseUrl}chat",
+      "${Url().baseUrl}chat",
       IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
           {'authorization': authorization}).build(),
     );
@@ -233,7 +234,7 @@ class _MessageScreenState extends State<MessageScreen> {
         CircleAvatar(
           radius: 30,
           backgroundImage: NetworkImage(
-            '${baseUrl}$profilePic',
+            '${Url().baseUrl}$profilePic',
           ),
         ),
         Expanded(

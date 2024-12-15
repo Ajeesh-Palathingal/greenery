@@ -131,7 +131,7 @@ class LoginPage extends StatelessWidget {
                           final isValidLogin = await authController.login(
                               _emailController.text, _passwordController.text);
                           if (isValidLogin) {
-                            Get.to(NavbarControlScreen());
+                            Get.to(() => NavbarControlScreen());
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -140,7 +140,6 @@ class LoginPage extends StatelessWidget {
                               ),
                             );
                           }
-                       
                         },
                         child: Container(
                           height: 60.w,

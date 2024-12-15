@@ -9,8 +9,6 @@ import 'package:greenery/screens/widgets/custom_text.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -102,7 +100,7 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                         
+
                           // Add Login Logic Here
                           // ScaffoldMessenger.of(context).showSnackBar(
                           //   SnackBar(

@@ -16,7 +16,6 @@ class UpcomingTile extends StatelessWidget {
   });
 
   final AuctionModel auctionItem;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +43,9 @@ class UpcomingTile extends StatelessWidget {
                   height: 102.w,
                   width: 170.w,
                   child: Image(
+
                     image: NetworkImage("$baseUrl${auctionItem.images[0]}"),
+
                     fit: BoxFit.cover,
                   ),
                 ),

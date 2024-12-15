@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:greenery/controllers/auth_controller.dart';
+import 'package:greenery/screens/auction/auction_screen.dart';
 import 'package:greenery/screens/authentication/sign_up.dart';
 import 'package:greenery/screens/navbar_controll/navbar_controll_screen.dart';
 
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+  AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
 
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -62,7 +69,7 @@ class LoginPage extends StatelessWidget {
                         width: 350.w,
                         color: const Color.fromRGBO(117, 230, 163, 0.15),
                         child: TextFormField(
-                          controller: emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                             fillColor:
                                 const Color.fromRGBO(117, 230, 163, 0.15),
@@ -88,7 +95,7 @@ class LoginPage extends StatelessWidget {
                         width: 350.w,
                         color: const Color.fromRGBO(117, 230, 163, 0.15),
                         child: TextFormField(
-                          controller: passwordController,
+                          controller: _passwordController,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             border: OutlineInputBorder(
@@ -120,13 +127,19 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16.0),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NavbarControlScreen(),
-                            ),
-                          );
+                        onTap: () async {
+                          final isValidLogin = await authController.login(
+                              _emailController.text, _passwordController.text);
+                          if (isValidLogin) {
+                            Get.to(() => NavbarControlScreen());
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text("Username and Password doesn't match"),
+                              ),
+                            );
+                          }
                         },
                         child: Container(
                           height: 60.w,
@@ -135,14 +148,18 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             color: const Color.fromRGBO(117, 230, 163, 1),
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                            ),
+                          child: Center(
+                            child: Obx(() {
+                              return authController.isLoading.value
+                                  ? CircularProgressIndicator()
+                                  : Text(
+                                      'Sign In',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    );
+                            }),
                           ),
                         ),
                       ),

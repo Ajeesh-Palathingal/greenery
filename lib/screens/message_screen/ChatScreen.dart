@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:greenery/api/data/Url.dart';
+import 'package:greenery/api/data/end_points.dart';
 import 'package:greenery/api/data/message.dart';
+import 'package:greenery/core/constants/constants.dart';
 import 'package:greenery/models/chat_model/chat_model.dart';
 import 'package:greenery/models/chat_model/conversation.dart';
 import 'package:greenery/models/chat_model/message.dart';
@@ -25,10 +26,10 @@ class ChatScreen extends StatelessWidget {
 
   Future<IO.Socket> _initializeSocket() async {
     final sharedPref = await SharedPreferences.getInstance();
-    final authorization = sharedPref.getString('TOKEN');
+    final authorization = sharedPref.getString(TOKEN);
     print(authorization);
     IO.Socket socket = IO.io(
-      "${Url().baseUrl}chat",
+      "${baseUrl}chat",
       IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
           {'authorization': authorization}).build(),
     );
@@ -57,7 +58,7 @@ class ChatScreen extends StatelessWidget {
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage('${Url().baseUrl}$profilePic'),
+              backgroundImage: NetworkImage('${baseUrl}$profilePic'),
             ),
             const SizedBox(width: 15),
             Column(

@@ -1,10 +1,109 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-
-
+import 'package:get/get.dart';
+import 'package:greenery/api/data/Url.dart';
+import 'package:greenery/controllers/auction_controller.dart';
+import 'package:greenery/core/constants/constants.dart';
+import 'package:greenery/models/bid_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../widgets/custom_appbar_widget.dart';
 
-class MakeABidScreen extends StatelessWidget {
-  const MakeABidScreen({super.key});
+class MakeABid extends StatefulWidget {
+  const MakeABid({super.key, required this.auctionId});
+  final String auctionId;
+
+  @override
+  _MakeABidState createState() => _MakeABidState();
+}
+
+class _MakeABidState extends State<MakeABid> {
+  late IO.Socket _socket;
+  final TextEditingController _bidController = TextEditingController();
+  List<BidModel> _bidders = [];
+  AuctionController auctionController = Get.put(AuctionController());
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSocket();
+  }
+
+  Future<void> _initializeSocket() async {
+    final sharedPref = await SharedPreferences.getInstance();
+    final authorization = sharedPref.getString(TOKEN);
+
+    _socket = IO.io(
+      "${Url().baseUrl}auction",
+      IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+          {'authorization': authorization}).build(),
+    );
+
+    _socket.on('connect', (_) {
+      print('Connected to auction socket');
+    });
+    _socket.on('ready', (_) {
+      print('Socket is ready');
+    });
+    _socket.emit('joinAuction', {'auctionId': widget.auctionId});
+
+    _socket.on('bidUpdated', (data) {
+      log(data.toString());
+      _handleNewBid(data);
+    });
+
+    _socket.on('bidError', (error) {
+      _showErrorDialog('$error');
+    });
+
+    _socket.connect();
+  }
+
+  void _handleNewBid(dynamic bidData) {
+    final newBid = BidModel.fromJson(bidData);
+    _bidders.add(newBid);
+    _bidders.sort((a, b) => b.amount.compareTo(a.amount));
+  }
+
+  void _placeBid(double bidAmount) {
+    _socket.emit('placeBid', {
+      'auctionId': widget.auctionId,
+      'bidAmount': bidAmount,
+    });
+  }
+
+  void _quickBid(double increment) {
+    if (_bidders.isNotEmpty) {
+      final currentBid = _bidders.first.amount;
+      final newBidAmount = currentBid + increment;
+      _bidController.text = newBidAmount.toStringAsFixed(2);
+    } else {
+      _bidController.text = increment.toString();
+    }
+  }
+
+  void _showErrorDialog(dynamic message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _socket.dispose();
+    _bidController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +113,6 @@ class MakeABidScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Scrollable content
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
@@ -25,72 +123,85 @@ class MakeABidScreen extends StatelessWidget {
                     'Participate in current product bidding',
                     style: TextStyle(color: Colors.grey[600]),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Column(
+                    child: Builder(
+                      builder: (context) {
+                        return Column(
+                          children: auctionController.bids
+                              .map((bidder) => Column(
+                                    children: [
+                                      _buildBidItem(
+                                          bidder.bidderName,
+                                          bidder.bidderEmail ?? "",
+                                          '\$${bidder.amount.toStringAsFixed(2)}'),
+                                      if (bidder != _bidders.last)
+                                        const Divider(
+                                          color: Colors.grey,
+                                          thickness: 1,
+                                          indent: 18,
+                                          endIndent: 18,
+                                        ),
+                                    ],
+                                  ))
+                              .toList(),
+                        );
+                      }
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildBidItem('01', 'Sangeeth', '\$10.00'),
-                        Divider(
-                          color: Colors.grey,
-                          thickness: 1,
-                          indent: 18,
-                          endIndent: 18,
-                        ),
-                        _buildBidItem('02', 'Samalex', '\$9.00'),
-                        Divider(
-                          color: Colors.grey,
-                          thickness: 1,
-                          indent: 18,
-                          endIndent: 18,
-                        ),
-                        _buildBidItem('03', 'Chikku', '\$8.00'),
+                        _buildBidButton('+₹100', () => _quickBid(100)),
+                        _buildBidButton('+₹200', () => _quickBid(200)),
+                        _buildBidButton('+₹500', () => _quickBid(500)),
+                        _buildBidButton('+₹1000', () => _quickBid(1000)),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16),
-                  _buildBidItem('06', 'You', '\$6.00', isHighlighted: true),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildBidButton('+\$1'),
-                      _buildBidButton('+\$2'),
-                      _buildBidButton('+\$5'),
-                      _buildBidButton('+\$10'),
-                    ],
-                  ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextField(
+                    controller: _bidController,
                     decoration: InputDecoration(
                       hintText: 'Enter bid amount',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                    keyboardType: TextInputType.number,
                   ),
                 ],
               ),
             ),
           ),
-          // Button fixed at the bottom
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final bidAmount = double.tryParse(_bidController.text);
+                  if (bidAmount != null) {
+                    _placeBid(bidAmount);
+                  } else {
+                    _showErrorDialog('Invalid bid amount');
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.green[800],
                   backgroundColor: Colors.green[200],
-                  minimumSize: Size(double.infinity, 48),
+                  minimumSize: const Size(double.infinity, 48),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: Text('Make a bid'),
+                child: const Text('Make a bid'),
               ),
             ),
           ),
@@ -106,7 +217,7 @@ class MakeABidScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: isHighlighted ? Colors.green[100] : Colors.transparent,
       ),
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -122,38 +233,38 @@ class MakeABidScreen extends StatelessWidget {
                 child: Center(
                   child: Text(
                     number,
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(name),
             ],
           ),
           Text(
             amount,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBidButton(String text) {
+  Widget _buildBidButton(String text, VoidCallback onPressed) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.green[800],
         backgroundColor: Colors.green[200],
-        minimumSize: Size(64, 48),
+        minimumSize: const Size(64, 48),
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.black),
+          side: const BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(8),
         ),
       ),
       child: Text(
         text,
-        style: TextStyle(fontSize: 16, color: Colors.black),
+        style: const TextStyle(fontSize: 16, color: Colors.black),
       ),
     );
   }

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:greenery/controllers/auth_controller.dart';
+import 'package:greenery/screens/auction/auction_screen.dart';
 
 import 'package:greenery/screens/widgets/custom_text.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,19 +102,20 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                         
                           // Add Login Logic Here
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Logging in as $username'),
-                            ),
-                          );
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(
+                          //     content: Text('Logging in as $username'),
+                          //   ),
+                          // );
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('Sign Up'),
+                      child: const Text('Sign In'),
                     ),
                     const SizedBox(height: 24.0),
                     Center(
